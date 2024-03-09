@@ -7,25 +7,25 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mansour.springdatajdbc.models.User;
 
 public interface UserService {
-        @Transactional
+@Transactional
     int count();
 
-    @Transactional
+@Transactional
     User getUser(long id);
 
-    @Transactional
+@Transactional
     List<User> getUserByName(String name);
 
-    @Transactional
+@Transactional
     List<User> getUsers();
 
-    @Transactional
+@Transactional
     void createUser(User user);
 
-    @Transactional
+@Transactional
     User updatUser(User user);
 
-    @Transactional
+@Transactional
     User deleteUser(long id);
 
 }
