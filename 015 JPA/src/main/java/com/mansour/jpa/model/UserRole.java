@@ -20,9 +20,6 @@ public class UserRole {
     @Column(name = "role")
     private Role role;
 
-    
-
-
     public UserRole() {
     }
 

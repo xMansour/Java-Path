@@ -93,9 +93,19 @@ public class User {
         this.account = account;
     }
 
+    public List<UserRole> getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(List<UserRole> userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", gender=" + gender + ", age=" + age + "]";
     }
+
+
 
 }
