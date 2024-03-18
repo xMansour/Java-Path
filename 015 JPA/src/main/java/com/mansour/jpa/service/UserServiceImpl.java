@@ -2,6 +2,10 @@ package com.mansour.jpa.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -50,8 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> filter(String name) {
-        return userRepository.filter(name);
+    public List<User> filter(String name, Direction direction, String sortingProperty) {
+        return userRepository.filter(name, Sort.by(direction, sortingProperty));
     }
 
     @Override
@@ -62,6 +66,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserStatisticProjection getUserStatisticProjection() {
         return userRepository.getUserStatisticProjection();
+    }
+
+    @Override
+    public Page<User> getUsersPagable(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
 }
