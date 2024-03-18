@@ -3,6 +3,7 @@ package com.mansour.jpa.service;
 import java.util.List;
 
 import com.mansour.jpa.model.User;
+import com.mansour.jpa.model.UserStatisticProjection;
 
 public interface UserService {
 
@@ -22,4 +23,5 @@ public interface UserService {
 
     List<User> filterNativeQuery(String name);
 
+    UserStatisticProjection getUserStatisticProjection();
 }

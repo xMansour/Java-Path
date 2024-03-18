@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.mansour.jpa.model.User;
+import com.mansour.jpa.model.UserStatisticProjection;
 import com.mansour.jpa.repository.UserRepository;
 
 @Service
@@ -56,6 +57,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> filterNativeQuery(String name) {
         return userRepository.filterNativeQuery(name);
+    }
+
+    @Override
+    public UserStatisticProjection getUserStatisticProjection() {
+        return userRepository.getUserStatisticProjection();
     }
 
 }

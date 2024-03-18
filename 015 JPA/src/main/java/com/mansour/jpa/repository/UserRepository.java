@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.mansour.jpa.model.User;
+import com.mansour.jpa.model.UserStatisticProjection;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -18,8 +19,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "select user from User user where user.name like :name")
     List<User> filter(@Param(value = "name") String name);
 
-    //Native Query
+    // Native Query
     @Query(value = "select * from user where user.name like :name", nativeQuery = true)
     List<User> filterNativeQuery(@Param(value = "name") String name);
+
+    @Query(value = "select (select count(*) from user) userCount, (select count(*) from department) departmentCount, (select count(*) from account) accountCount", nativeQuery = true)
+    UserStatisticProjection getUserStatisticProjection();
 
 }

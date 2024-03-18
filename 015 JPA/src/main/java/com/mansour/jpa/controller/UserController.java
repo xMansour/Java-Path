@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mansour.jpa.model.User;
+import com.mansour.jpa.model.UserStatisticProjection;
 import com.mansour.jpa.service.UserService;
 
 import java.util.List;
@@ -60,6 +61,11 @@ public class UserController {
     @GetMapping("/filter/{name}")
     public List<User> filterUsersByName(@PathVariable String name){
         return userService.filter(name);
+    }
+
+    @GetMapping("/status")
+    public UserStatisticProjection gUserStatisticProjection(){
+        return userService.getUserStatisticProjection();
     }
     
 
