@@ -2,16 +2,18 @@ package com.mansour.jpa.service;
 
 import java.util.List;
 
+import com.mansour.jpa.dto.DepartmentDTO;
+import com.mansour.jpa.exceptions.ResourceNotFoundException;
 import com.mansour.jpa.model.Department;
 
 public interface DepartmentService {
-    List<Department> getDepartments();
+    List<DepartmentDTO> getDepartments();
 
-    Department getDepartment(Long id);
+    DepartmentDTO getDepartment(Long id) throws ResourceNotFoundException;
 
-    Department createDepartment(Department department);
+    DepartmentDTO createDepartment(Department department);
 
-    Department updateDepartment(Department department);
+    DepartmentDTO updateDepartment(Department department);
 
-    Department deleteDepartment(Long id);
+    DepartmentDTO deleteDepartment(Long id) throws ResourceNotFoundException;
 }

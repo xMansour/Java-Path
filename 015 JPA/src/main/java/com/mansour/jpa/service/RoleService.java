@@ -2,17 +2,19 @@ package com.mansour.jpa.service;
 
 import java.util.List;
 
+import com.mansour.jpa.dto.UserRoleDTO;
+import com.mansour.jpa.exceptions.ResourceNotFoundException;
 import com.mansour.jpa.model.UserRole;
 
 public interface RoleService {
-    List<UserRole> getRoles();
+    List<UserRoleDTO> getRoles();
 
-    UserRole getRole(Long id);
+    UserRoleDTO getRole(Long id) throws ResourceNotFoundException;
 
-    UserRole createRole(UserRole role);
+    UserRoleDTO createRole(UserRole role);
 
-    UserRole updateRole(UserRole role);
+    UserRoleDTO updateRole(UserRole role);
 
-    UserRole deleteRole(Long id);
+    UserRoleDTO deleteRole(Long id) throws ResourceNotFoundException;
 
 }

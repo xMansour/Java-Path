@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mansour.jpa.dto.DepartmentDTO;
+import com.mansour.jpa.exceptions.ResourceNotFoundException;
 import com.mansour.jpa.model.Department;
 import com.mansour.jpa.service.DepartmentService;
 
@@ -24,27 +26,38 @@ public class DepartmentController {
     }
 
     @GetMapping()
-    public List<Department> getDepartments() {
+    public List<DepartmentDTO> getDepartments() {
         return departmentService.getDepartments();
     }
 
     @GetMapping("/{id}")
-    public Department getDepartment(@PathVariable Long id) {
-        return departmentService.getDepartment(id);
+    public DepartmentDTO getDepartment(@PathVariable Long id) {
+        try {
+            return departmentService.getDepartment(id);
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+            return new DepartmentDTO(null);
+        }
     }
 
     @PostMapping()
-    public Department createDepartment(@RequestBody Department Department) {
+    public DepartmentDTO createDepartment(@RequestBody Department Department) {
         return departmentService.createDepartment(Department);
     }
 
     @DeleteMapping("/{id}")
-    public Department deleteDepartment(@PathVariable Long id) {
-        return departmentService.deleteDepartment(id);
+    public DepartmentDTO deleteDepartment(@PathVariable Long id) {
+        try {
+            return departmentService.deleteDepartment(id);
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+            return new DepartmentDTO(null);
+        }
+
     }
 
     @PutMapping()
-    public Department updateDepartment(@RequestBody Department Department) {
+    public DepartmentDTO updateDepartment(@RequestBody Department Department) {
         return departmentService.updateDepartment(Department);
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
+import com.mansour.jpa.dto.UserDTO;
+import com.mansour.jpa.exceptions.ResourceNotFoundException;
+import com.mansour.jpa.mapper.UserDTOMapper;
 import com.mansour.jpa.model.User;
 import com.mansour.jpa.model.UserStatisticProjection;
 import com.mansour.jpa.repository.UserRepository;
@@ -16,51 +18,57 @@ import com.mansour.jpa.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
+    private UserDTOMapper userDTOMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDTOMapper userDTOMapper) {
         this.userRepository = userRepository;
+        this.userDTOMapper = userDTOMapper;
     }
 
     @Override
-    public List<User> getUsers() {
-        return Lists.newArrayList(userRepository.findAll());
+    public List<UserDTO> getUsers() {
+        return userRepository.findAll().stream()
+                .map(userDTOMapper).toList();
     }
 
     @Override
-    public User getUser(Long id) {
-        return userRepository.findById(id).get();
+    public UserDTO getUser(Long id) throws ResourceNotFoundException {
+        return userRepository.findById(id).map(userDTOMapper)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer with id:%s not found".formatted(id)));
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDTO createUser(User user) {
+        User createdUser = userRepository.save(user);
+        return userDTOMapper.apply(createdUser);
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public UserDTO updateUser(User user) {
+        User updatedUser = userRepository.save(user);
+        return userDTOMapper.apply(updatedUser);
     }
 
     @Override
-    public User deleteUser(Long id) {
-        User user = getUser(id);
+    public UserDTO deleteUser(Long id) throws ResourceNotFoundException {
+        UserDTO deletedUser = getUser(id);
         userRepository.deleteById(id);
-        return user;
+        return deletedUser;
     }
 
     @Override
-    public List<User> findByDepartmentName(String name) {
-        return userRepository.findByDepartmentName(name);
+    public List<UserDTO> findByDepartmentName(String name) {
+        return userRepository.findByDepartmentName(name).stream().map(userDTOMapper).toList();
     }
 
     @Override
-    public List<User> filter(String name, Direction direction, String sortingProperty) {
-        return userRepository.filter(name, Sort.by(direction, sortingProperty));
+    public List<UserDTO> filter(String name, Direction direction, String sortingProperty) {
+        return userRepository.filter(name, Sort.by(direction, sortingProperty)).stream().map(userDTOMapper).toList();
     }
 
     @Override
-    public List<User> filterNativeQuery(String name) {
-        return userRepository.filterNativeQuery(name);
+    public List<UserDTO> filterNativeQuery(String name) {
+        return userRepository.filterNativeQuery(name).stream().map(userDTOMapper).toList();
     }
 
     @Override
@@ -69,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUsersPagable(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserDTO> getUsersPagable(Pageable pageable) {
+        return userRepository.findAll(pageable).map(userDTOMapper);
     }
 
 }

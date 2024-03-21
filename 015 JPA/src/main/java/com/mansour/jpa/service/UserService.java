@@ -6,28 +6,30 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
+import com.mansour.jpa.dto.UserDTO;
+import com.mansour.jpa.exceptions.ResourceNotFoundException;
 import com.mansour.jpa.model.User;
 import com.mansour.jpa.model.UserStatisticProjection;
 
 public interface UserService {
 
-    List<User> getUsers();
+    List<UserDTO> getUsers();
 
-    User getUser(Long id);
+    UserDTO getUser(Long id) throws ResourceNotFoundException;
 
-    Page<User> getUsersPagable(Pageable pageable);
+    Page<UserDTO> getUsersPagable(Pageable pageable);
 
-    User createUser(User user);
+    UserDTO createUser(User user);
 
-    User updateUser(User user);
+    UserDTO updateUser(User user);
 
-    User deleteUser(Long id);
+    UserDTO deleteUser(Long id) throws ResourceNotFoundException;
 
-    List<User> findByDepartmentName(String name);
+    List<UserDTO> findByDepartmentName(String name);
 
-    List<User> filter(String name, Direction direction, String sortingProperty);
+    List<UserDTO> filter(String name, Direction direction, String sortingProperty);
 
-    List<User> filterNativeQuery(String name);
+    List<UserDTO> filterNativeQuery(String name);
 
     UserStatisticProjection getUserStatisticProjection();
 

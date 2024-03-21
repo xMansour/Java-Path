@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mansour.jpa.dto.UserRoleDTO;
+import com.mansour.jpa.exceptions.ResourceNotFoundException;
 import com.mansour.jpa.model.UserRole;
 import com.mansour.jpa.service.RoleService;
 
@@ -25,29 +27,38 @@ public class RoleController {
     }
 
     @GetMapping()
-    public List<UserRole> getUserRoles(){
+    public List<UserRoleDTO> getUserRoles() {
         return roleService.getRoles();
     }
 
     @GetMapping("/{id}")
-    public UserRole getRole(@PathVariable Long id){
-        return roleService.getRole(id);
+    public UserRoleDTO getRole(@PathVariable Long id) {
+        try {
+            return roleService.getRole(id);
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+            return new UserRoleDTO(null);
+        }
     }
 
     @PostMapping()
-    public UserRole creatRole(@RequestBody UserRole userRole){
+    public UserRoleDTO creatRole(@RequestBody UserRole userRole) {
         return roleService.createRole(userRole);
     }
 
     @PutMapping()
-    public UserRole updateRole(@RequestBody UserRole userRole){
+    public UserRoleDTO updateRole(@RequestBody UserRole userRole) {
         return roleService.updateRole(userRole);
     }
 
-
     @DeleteMapping("/{id}")
-    public UserRole deleteRole(@PathVariable Long id){
-        return roleService.deleteRole(id);
+    public UserRoleDTO deleteRole(@PathVariable Long id) {
+        try {
+            return roleService.deleteRole(id);
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+            return new UserRoleDTO(null);
+        }
     }
 
 }
